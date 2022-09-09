@@ -56,7 +56,7 @@ COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/conver
 COPY --from=build-stage /build/docservice ${oo_root}/server/DocService/docservice
 
 # web-apps
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/documenteditor/mobile/dist/js/app.js     ${oo_root}/web-apps/apps/documenteditor/mobile/dist/js/app.js
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/presentationeditor/mobile/dist/js/app.js ${oo_root}/web-apps/apps/presentationeditor/mobile/dist/js/app.js
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/spreadsheeteditor/mobile/dist/js/app.js  ${oo_root}/web-apps/apps/spreadsheeteditor/mobile/dist/js/app.js
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/documenteditor/mobile     ${oo_root}/web-apps/apps/documenteditor/mobile
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/presentationeditor/mobile ${oo_root}/web-apps/apps/presentationeditor/mobile
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/spreadsheeteditor/mobile  ${oo_root}/web-apps/apps/spreadsheeteditor/mobile/
 
