@@ -29,6 +29,7 @@ RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/web-
 RUN git clone --quiet --branch $tag --depth 1 https://github.com/ONLYOFFICE/server.git      /build/server
 
 COPY server /build/server
+COPY web-apps /build/web-apps
 
 
 ## Build
@@ -37,8 +38,13 @@ FROM clone-stage as build-stage
 # build server with license checks patched
 WORKDIR /build/server
 RUN make
-RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/FileConverter --targets=node10-linux -o /build/converter
-RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocService --targets=node10-linux --options max_old_space_size=4096 -o /build/docservice
+RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/FileConverter --targets=node14-linux -o /build/converter
+RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocService --targets=node14-linux --options max_old_space_size=4096 -o /build/docservice
+
+# build web-apps with mobile editing
+WORKDIR /build/web-apps/build
+RUN npm install
+RUN grunt
 
 
 ## Final image
@@ -48,3 +54,9 @@ ARG oo_root
 # server
 COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/converter
 COPY --from=build-stage /build/docservice ${oo_root}/server/DocService/docservice
+
+# web-apps
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/documenteditor/mobile/app.js     ${oo_root}/web-apps/apps/documenteditor/mobile/app.js
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/presentationeditor/mobile/app.js ${oo_root}/web-apps/apps/presentationeditor/mobile/app.js
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/spreadsheeteditor/mobile/app.js  ${oo_root}/web-apps/apps/spreadsheeteditor/mobile/app.js
+
