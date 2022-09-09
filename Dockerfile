@@ -43,7 +43,7 @@ RUN pkg /build/build_tools/out/linux_64/onlyoffice/documentserver/server/DocServ
 
 # build web-apps with mobile editing
 WORKDIR /build/web-apps/build
-RUN npm install
+RUN npm config set registry http://registry.npm.taobao.org/; npm install
 RUN grunt
 
 
@@ -56,7 +56,7 @@ COPY --from=build-stage /build/converter  ${oo_root}/server/FileConverter/conver
 COPY --from=build-stage /build/docservice ${oo_root}/server/DocService/docservice
 
 # web-apps
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/documenteditor/mobile/app.js     ${oo_root}/web-apps/apps/documenteditor/mobile/app.js
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/presentationeditor/mobile/app.js ${oo_root}/web-apps/apps/presentationeditor/mobile/app.js
-COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/spreadsheeteditor/mobile/app.js  ${oo_root}/web-apps/apps/spreadsheeteditor/mobile/app.js
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/documenteditor/mobile/dist/js/app.js     ${oo_root}/web-apps/apps/documenteditor/mobile/dist/js/app.js
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/presentationeditor/mobile/dist/js/app.js ${oo_root}/web-apps/apps/presentationeditor/mobile/dist/js/app.js
+COPY --from=build-stage /build/web-apps/deploy/web-apps/apps/spreadsheeteditor/mobile/dist/js/app.js  ${oo_root}/web-apps/apps/spreadsheeteditor/mobile/dist/js/app.js
 
