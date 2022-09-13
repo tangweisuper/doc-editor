@@ -486,7 +486,7 @@ class MainController extends Component {
             } else {
                 Common.Notifications.trigger('toolbar:activatecontrols');
                 // Common.Notifications.trigger('toolbar:deactivateeditcontrols');
-                Common.Notifications.trigger('api:disconnect');
+                // Common.Notifications.trigger('api:disconnect');
             }
 
             let value = LocalStorage.getItem("de-license-warning");
